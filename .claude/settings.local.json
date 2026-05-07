@@ -12,7 +12,8 @@
       "Bash(cp -r /Users/sachin/HQ/Work/miniPM/skills/user-research ~/.claude/commands/)",
       "Bash(cp -r /Users/sachin/HQ/Work/miniPM/skills/job-strategy ~/.claude/commands/)",
       "Bash(cp -r /Users/sachin/HQ/Work/miniPM/skills/resume-builder ~/.claude/commands/)",
-      "Bash(cp -r /Users/sachin/HQ/Work/miniPM/skills/substack-writer ~/.claude/commands/)"
+      "Bash(cp -r /Users/sachin/HQ/Work/miniPM/skills/substack-writer ~/.claude/commands/)",
+      "Bash(cp -r /Users/sachin/HQ/Work/miniPM/skills/project-eval ~/.claude/commands/)"
     ]
   }
 }

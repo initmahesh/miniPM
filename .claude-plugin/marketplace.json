@@ -1,13 +1,21 @@
 {
+  "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
   "name": "mini-pm",
+  "description": "Your personal AI PM toolkit. MiniPM gives product managers a customizable set of AI-powered skills — install it, make it yours, and add more as you grow.",
   "owner": {
     "name": "Mahesh Yadav"
   },
   "plugins": [
     {
       "name": "mini-pm",
-      "source": "./",
-      "description": "AI-powered skills for product managers — PRDs, market research, user research synthesis, job strategy, and AI-optimized resume building."
+      "description": "Your personal AI PM toolkit. MiniPM gives product managers a customizable set of AI-powered skills — install it, make it yours, and add more as you grow.",
+      "author": {
+        "name": "Mahesh Yadav"
+      },
+      "source": {
+        "source": "github",
+        "repo": "initmahesh/miniPM"
+      }
     }
   ]
 }
