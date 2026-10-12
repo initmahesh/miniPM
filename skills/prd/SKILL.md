@@ -1,267 +1,160 @@
 ---
-name: prd
-description: Use this skill whenever a user asks to write a PRD, create a PRD, draft a PRD, spec out a feature, or create a one-pager. Triggers include: "write a PRD", "create a PRD", "draft a PRD", "PRD for [feature]", "spec out [feature]", "one pager for [feature]", or any request to document a product requirement.
+name: prd-review
+description: Use this skill whenever a user wants to review a PRD, audit a product spec, run a PRD quality check, or get structured feedback on a product requirements document. Triggers include: "review this PRD", "check my PRD", "audit this spec", "is my PRD good", "PRD review checklist", "give feedback on my product doc", or when a user pastes a PRD and asks for critique.
 version: 1.0.0
-argument-hint: <feature or product description>
+argument-hint: <PRD text or document>
 ---
 
-# PRD Writer
+# PRD Review Checklist
+*Covers 2-pagers and 6-pagers. Mark each item ✅ (Yes) · ⚠️ (Partial) · ❌ (No)*
 
-## Trigger
-Activate on "write a PRD", "create a PRD", "draft a PRD", "PRD for [feature]", "spec out [feature]", or "one pager for [feature]".
-
-## Context
-
-The PRD isn't dead. The bad PRD is dead. AI killed the 10-page PRD — no one read those. The modern PRD is lighter, sharper, and example-heavy.
-
-Core philosophy:
-- **Think crisp, not complete.** Teammates hate AI-generated bloat and crave human-written clarity. 2-3 pages max.
-- **PRDs are for alignment, not dictation.** They drive discussion and decisions. They're what you discuss, debate, refer to, and sync on.
-- **A PRD engineers actually want to read nails the "why" and the "what," not the "how."**
-- **You don't write a PRD once. You write it over time.** The PRD is a living document reflecting the team's current thinking at each stage.
-
-## Behavior
-
-### Step 1: Clarify Before Writing
-
-Before generating anything, ask 3-5 clarifying questions. Tailor to what's missing. Common gaps:
-
-- Who specifically has this problem? (Not "users" — which users? Job title, company size, situation)
-- What data do we have that this is worth solving? (Usage data, support tickets, revenue impact, customer quotes)
-- What's the scope? (MVP vs full vision — and what stage is this PRD at?)
-- Are there technical constraints the engineering team has flagged?
-- What's the timeline and why?
-
-Do NOT proceed until the user answers. A PRD without clear answers to these is vague and useless.
-
-If the user is early-stage or exploring, generate a "speclet" (Stage 1) — just enough for the team to explore further. Never force a full PRD on an idea that needs discovery first.
-
-### Step 2: Determine the PRD Stage
-
-The PRD evolves through stages. Ask or infer which stage the user is at:
-
-| Stage | What It Is | What the PRD Looks Like |
-|-------|-----------|------------------------|
-| **1. Team Kickoff** | Exploring the problem with design + eng | A "speclet" — title, problem hypothesis, 2-3 open questions. Maybe just a paragraph. |
-| **2. Planning Review** | Presenting to leadership for prioritization | A 1-pager: problem, strategic fit, initial data, potential approach. Audience: VP, CEO. |
-| **3. XFN Kickoff** | Bringing in sales, support, marketing, legal, QA | Expanded doc with cross-functional input needed. Compelling problem + initial solution direction. |
-| **4. Solution Review** | Staking a position on the solution | Full PRD with solution details, flows, edge cases. May be presented to senior leadership. |
-| **5. Launch Readiness** | Engineering handoff | Concrete specs: edge cases, metrics, user flows. Engineers comment heavily on this version. |
-| **6. Impact Review** | Post-launch learning | Add results link at top. What worked, what didn't, rollback notes. Closes the build-test-learn loop. |
-
-Default to Stage 4 (Solution Review) unless the user specifies otherwise. This is the most common PRD request.
-
-### Step 3: Generate the PRD
-
-Every section earns its place. If a section doesn't drive a decision or prevent a mistake, cut it.
-
-**Title:** [Feature Name]
-**Author:** [User's name if known]
-**Date:** [Today's date]
-**Status:** Draft — [Stage name]
+| Field | |
+|---|---|
+| Document Title | |
+| Author / Reviewer | |
+| Review Date | |
 
 ---
 
-**1. Hypothesis**
-One sentence. Testable. Prevents wasted development cycles.
-Format: "We believe [action] will [outcome] for [users], measured by [metric]."
+## 0. Opening & Framing
+*Amazon PRFAQ principle: if the opening doesn't land, leadership stops reading. Check this first.*
 
-Example: "We believe one-click checkout for returning users will increase conversion rates by 15% by reducing friction in the buying process."
+| # | Check | Status | Notes |
+|---|---|---|---|
+| 0.1 | Headline / title is a customer benefit statement — not a feature description or internal project name | | |
+| 0.2 | First paragraph names the customer, the problem, and the transformation delivered — an unfamiliar exec understands why this matters in under 30 seconds | | |
+| 0.3 | Document is free of buzzwords and hype: "revolutionary", "game-changing", "AI-powered", "next-gen", "paradigm shift" | | |
+| 0.4 | Narrative is written from the customer's perspective throughout — not the engineer's or the company's | | |
 
-**2. Problem**
-- Who has this problem (specific user segment, not "everyone")
-- How bad is it (frequency, severity, with data)
-- How are they solving it today (workarounds = strong signal)
-- What happens if we don't solve it
-- Customer evidence: quotes, support tickets, research findings. A PRD without customer evidence is a PRD built on assumptions.
-
-**3. Strategic Fit**
-- Why this problem, why now
-- How it connects to current OKRs
-- Why this approach vs alternatives we considered (explain controversial decisions explicitly — this is where alignment happens)
-- Competitive context if relevant (name competitors, don't just say "the market")
-
-**4. Solution**
-- Specific description of what we're building (not vague)
-- User flow (step by step)
-- Key interactions and states
-- Include wireframe descriptions or ASCII mockups where helpful
-- For AI features: 15-25 example input/output pairs showing expected behavior, edge-case inputs, rejection criteria, and how the system handles unexpected or malformed inputs
-
-**5. Non-Goals**
-State these early. Best defense against scope creep.
-- What we're explicitly NOT doing in this version (be specific: "We are NOT building Outlook sync in V1")
-- Features we considered and cut, with one-line reasoning for each
-- Intentional trade-offs the team should understand
-
-**6. Success Metrics**
-- Primary metric with target number and timeframe
-- Secondary metrics (2-3)
-- Guardrail metrics (what should NOT get worse — with current baselines and acceptable ranges)
-- For experiments: passing criteria to graduate the A/B test
-
-**7. Rollout Plan**
-- A/B test or full rollout? Gradual or big bang?
-- If gradual: rollout percentage stages (1% → 10% → 50% → 100%) with go/no-go criteria at each stage
-- Rollback plan: how to undo this if it goes wrong
-
-**8. Open Questions**
-- Flag unresolved items with `[NEED: data from X]` placeholders
-- Include owner and deadline for each question
-- Don't hide unknowns — surface them
+**Notes:**
 
 ---
 
-### Step 4: Stage-Appropriate Checklist
+## 1. Problem & Customer
 
-After generating, verify the PRD against the checklist for its stage. Flag gaps to the user.
+| # | Check | Status | Notes |
+|---|---|---|---|
+| 1.1 | Problem is clearly articulated (job-to-be-done) and validated with real customer data or research — not internal assumptions | | |
+| 1.2 | Problem statement is a pure pain statement — does NOT hint at or imply a solution | | |
+| 1.3 | Negative impact is quantified: time lost, cost, frequency, or scale of affected users | | |
+| 1.4 | Customer persona defined with specific roles, industries, and needs; buyer vs. user distinguished if different | | |
+| 1.5 | Urgency is clear — explains why now and the cost of inaction | | |
+| 1.6 | Existing alternatives called out as insufficient, with a specific reason why they fall short | | |
+| 1.7 | MOAT is defined and defensible — data flywheel, workflow lock-in, proprietary training, or switching cost | | |
+| 1.8 | Solution is differentiated from ChatGPT, copilots, and commodity AI wrappers | | |
+| 1.9 | Validated demand signal present — customer quotes, paid pilots, waitlists, or demonstrated willingness to pay | | |
 
-**Planning Stage Checklist:**
-- [ ] Problem clearly defined with user segment?
-- [ ] Current state documented (how problem goes unaddressed today)?
-- [ ] Business metrics that will move identified?
-- [ ] Qualitative evidence included (not just assumptions)?
-- [ ] Knowledge gaps identified with owners and timelines?
-- [ ] Competitive landscape surveyed?
-
-**Solution Review Checklist:**
-- [ ] Edge cases identified?
-- [ ] Rollout plan determined (experiment vs. gradual)?
-- [ ] Cross-functional requirements specified (legal, marketing, support)?
-- [ ] Tracking and analytics events defined?
-- [ ] Risks and mitigations documented?
-
-**Launch Readiness Checklist:**
-- [ ] Engineering concerns addressed?
-- [ ] Design complete?
-- [ ] Tasks estimated and created?
-- [ ] GTM enablement complete (sales, support, docs)?
-- [ ] Hypothesis and impact sizing documented?
-- [ ] All edge cases resolved?
-- [ ] QA test plan prepared?
-
-### Step 5: Review
-
-After generating, offer:
-- "Want me to review this as an engineer, designer, or skeptic?"
-- "Want me to tighten this into a 1-pager for executive review?"
-- "Want me to add an AI behavior spec with input/output examples?"
+**Notes:**
 
 ---
 
-## Good vs. Bad PRD Sections
+## 2. Solution & AI Design
 
-### Bad Hypothesis (vague, untestable)
-```
-We believe improving the onboarding experience will lead to better user engagement.
-```
-No specific action, no target user, no metric, no number. "Better" and "improving" mean nothing.
+| # | Check | Status | Notes |
+|---|---|---|---|
+| 2.1 | Core value proposition is crisp (1–2 sentences) and directly addresses the stated problem | | |
+| 2.2 | Solution addresses every problem raised in the Problem section — no orphaned pain points left unresolved | | |
+| 2.3 | Solution is described in benefit language (what the customer experiences) — not feature lists or system architecture | | |
+| 2.4 | Visual user flow included: input → processing → output | | |
+| 2.5 | Core functional requirements listed in user story format | | |
+| 2.6 | Use of Agentic AI / ML / LLMs justified over rule-based or simpler approaches; unstructured data types identified | | |
+| 2.7 | AI drawbacks addressed: hallucination, attribution accuracy, agent failure modes, and explainability | | |
 
-### Good Hypothesis (specific, testable)
-```
-We believe that replacing the 7-step onboarding wizard with a single-screen
-setup for mid-market teams (50-200 employees) will increase 7-day activation
-from 23% to 35%, because 67% of users currently abandon at step 4 (the
-integrations screen) according to our June cohort analysis.
-```
-
-### Bad Problem Section (no evidence)
-```
-Users find the current experience confusing and would benefit from improvements.
-Many users have expressed interest in a better solution.
-```
-No specifics, no data, no customer quotes, no evidence of workarounds. This could describe any feature at any company.
-
-### Good Problem Section (evidence-rich)
-```
-Who: Mid-market project teams (50-200 people) using our tool for task management.
-
-How bad: In our latest user survey (n=340), 67% of respondents said they use a
-separate calendar tool to track project deadlines. Support tickets related to
-"missed deadlines" increased 23% QoQ. Exit interviews cite "no calendar view"
-as the #3 reason for churn.
-
-Current workarounds: Users export tasks to CSV, manually add deadlines to Google
-Calendar, or use Zapier integrations that break frequently. The fact that they
-build workarounds proves the pain is real.
-
-If we don't solve it: Sales reports 3 lost deals >$50K ARR in Q4 citing
-"no calendar." Competitors Asana and Monday.com both launched calendar views
-in the past 12 months.
-```
-
-### Bad Metrics Section (comically vague)
-```
-Success Metrics:
-- Engagement: improve
-- User satisfaction: increase
-- Performance: maintain
-```
-
-### Good Metrics Section (specific, actionable)
-```
-Success Metrics:
-| Metric | Type | Baseline | Target | Timeframe |
-|--------|------|----------|--------|-----------|
-| Calendar view adoption | Primary | 0% | 40% of WAU | 90 days |
-| Weekly active users | Primary | 12,400 | 14,260 (+15%) | 90 days |
-| "Missed deadline" tickets | Secondary | 89/month | 65/month (-27%) | 90 days |
-
-Guardrails:
-- Page load time for calendar view: <2s (p95)
-- Drag-and-drop task update latency: <500ms
-- No increase in overall app crash rate
-
-Passing criteria (to graduate from 10% rollout): Calendar view adoption >25%
-among exposed users AND no guardrail violations after 2 weeks.
-```
-
-### Bad Non-Goals (missing or generic)
-```
-Non-Goals:
-- Out of scope items will be considered for future releases
-```
-
-### Good Non-Goals (specific, prevents scope creep)
-```
-Non-Goals:
-- We are NOT building Outlook/Exchange sync. V1 is Google Calendar only.
-  Outlook is V2 based on enterprise demand.
-- We are NOT building resource capacity planning. That's a separate
-  initiative owned by the Platform team.
-- We are NOT replacing Google Calendar. The sync is additive.
-- Tasks without due dates do NOT appear in the calendar view. This is
-  intentional — it keeps the view focused on deadlines.
-```
+**Notes:**
 
 ---
 
-## Anti-Patterns (From Analyzing 500+ PRDs)
+## 3. Metrics & Success
 
-**Fancy structure, empty content.** Every section filled, nothing actually said. Tautological filler like "Ensuring alignment with legal standards" instead of naming the specific legal risk and the mitigation plan.
+| # | Check | Status | Notes |
+|---|---|---|---|
+| 3.1 | North Star metric defined — the single number that proves the product is working | | |
+| 3.2 | Primary metric is customer-recognized — something the customer would care about, not an internal proxy | | |
+| 3.3 | Every primary metric has a baseline (current state value) AND a SMART target (specific, time-bound) | | |
+| 3.4 | Both leading indicators (early signals you can watch) and lagging indicators (ultimate business outcomes) are present | | |
+| 3.5 | Secondary metrics included: adoption, time saved, cost reduction, or task completion rate | | |
+| 3.6 | Anti-metrics / guardrails stated — what should NOT get worse (e.g. false attribution rate, user trust, latency) | | |
+| 3.7 | Launch criteria clearly defined — what specific thresholds must be met to ship? | | |
+| 3.8 | Metric ownership and tracking method defined — who owns each metric and how will it be measured? | | |
 
-**Delegating your thinking.** Writing "Design will explore the optimal layout" instead of describing the user flow and working through edge cases. The designer should challenge and improve your thinking — not receive a blank canvas.
-
-**No customer evidence.** The single biggest red flag. Zero user quotes, zero support tickets, zero data points means a PRD built on vibes. Even 3 customer quotes transform a spec from opinion to evidence.
-
-**Hiding the controversial decision.** Close call between approach A and B? Say so. Explain why you chose. This is where alignment actually happens. Burying the controversy guarantees it resurfaces as a blocker.
-
-**Metrics without baselines.** "Increase conversion rate" is meaningless without the current rate, target, and deadline. A metric without a baseline is a wish, not a measurement.
-
-**Ending at launch.** The PRD lifecycle extends past engineering handoff. Add a Stage 6 results link after launch. 50-92% of features at top tech companies miss expectations — the learning is more valuable than the spec.
-
-**Over-specifying the "how."** Engineers and designers are creative problem solvers. Obsess over the "why" and the "what" — not pixel-level details or architecture choices. Specify the user outcome, not the implementation.
-
-**Writing for every audience at once.** Founders find PRDs overwrought, designers find them too prescriptive, engineers want more detail. The fix: be stage-appropriate. Bare-bones early, detailed later, always focused on decisions.
+**Notes:**
 
 ---
 
-## Rules
-- **Think crisp, not complete.** Keep PRDs under 2 pages unless the user asks for more. If it's over 2 pages, ask if that depth is needed.
-- **Flag missing information** with `[NEED: data from X]` rather than making things up. Never fabricate data, customer quotes, or metrics.
-- **Use specific numbers.** Not "improve engagement" — "increase 7-day activation from 23% to 35%."
-- **No filler.** Every sentence should add information or drive a decision. Cut anything that fails the "so what?" test.
-- **Non-goals go early.** Best defense against scope creep. State them before the solution section.
-- **For AI features**, add a dedicated section with: 15-25 behavior examples (input/output pairs), edge cases, rejection criteria, and eval criteria.
-- **A strong PRD aligns the team without a meeting.** If someone reads it and still needs a 30-minute walkthrough, it's not done.
-- **Documents are your voice when you're not in the room.** Treat them accordingly.
+## 4. Prioritization & Roadmap
+
+| # | Check | Status | Notes |
+|---|---|---|---|
+| 4.1 | Agentic workflow broken into components (e.g. ingestion, extraction, summarization) with per-component risk assessment | | |
+| 4.2 | ML feasibility, data availability, and accuracy expectations specified | | |
+| 4.3 | Features prioritized by risk, cost, and value; MVP scope narrowed with rationale | | |
+| 4.4 | Roadmap phases defined: MVP → MVP1 → Launch → Iteration, with feature sets and durations | | |
+| 4.5 | Roadmap items linked back to priorities and risks | | |
+
+**Notes:**
+
+---
+
+## 5. AI Evaluation & Prompt Strategy
+
+| # | Check | Status | Notes |
+|---|---|---|---|
+| 5.1 | AI performance evaluation approach described (datasets, ground truth sources, benchmarking cadence) | | |
+| 5.2 | Accuracy targets defined relative to a human or rule-based baseline — not just in absolute terms | | |
+| 5.3 | Prompting strategy described — few-shot, CoT, or conditional prompting where applicable | | |
+| 5.4 | Plan for prompt iteration and improvement based on user feedback | | |
+
+**Notes:**
+
+---
+
+## 6. Responsible AI
+
+| # | Check | Status | Notes |
+|---|---|---|---|
+| 6.1 | Risks assessed across Accountability, Transparency, Fairness, and Reliability | | |
+| 6.2 | Human-in-the-loop and fallback paths planned | | |
+| 6.3 | Sensitive use cases identified with mitigation strategies | | |
+
+**Notes:**
+
+---
+
+## 7. Pricing & Business Case
+
+| # | Check | Status | Notes |
+|---|---|---|---|
+| 7.1 | Development costs broken down (infra + manpower) and ongoing operational costs listed | | |
+| 7.2 | Revenue scenarios defined and pricing model selected with rationale | | |
+| 7.3 | Accuracy vs. cost tradeoffs explained | | |
+| 7.4 | Directional pricing recommendation included | | |
+
+**Notes:**
+
+---
+
+## Overall Verdict
+
+| | |
+|---|---|
+| **Rating** | ⬜ Strong &nbsp; ⬜ Good — minor gaps &nbsp; ⬜ Needs Work &nbsp; ⬜ Not Ready |
+| **Top Strengths** | 1. · 2. · 3. |
+| **Top Gaps** | 1. · 2. · 3. |
+| **Next Step** | |
+
+---
+*PRD Review Checklist v3.0 — Reviews Project · Updated 2026-04-01 based on Amazon PRFAQ best practices*
+
+---
+
+## ✦ Proposed Additions — v2 (2026-04-24)
+
+*These items were added based on feedback patterns seen 5+ times across reviewed documents.*
+
+| ✦ NEW | **Metrics & Success → 3.2** — Does each primary metric include a baseline (current state) and a SMART target? | | |
+  *(Added v2 — seen in 5 docs. Example: "When a document scopes the product too narrowly (e.g. "back-office teams in CRE ...")* |
+| ✦ NEW | **Problem & Customer → 1.1** — Is the problem backed by at least one concrete data point or direct customer evidence? | | |
+  *(Added v2 — seen in 5 docs. Example: "When a document scopes the product too narrowly (e.g. "back-office teams in CRE ...")* |
+
+---
+*Checklist v2 — pending approval from Mahesh*
